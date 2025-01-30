@@ -35,17 +35,19 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(RGB_LED_ISR RGB_LED_ISR.c )
+add_executable(RGB_LED_ISR 
+    RGB_LED_ISR.c
+    include/matriz_led_control.c)
 
 pico_set_program_name(RGB_LED_ISR "RGB_LED_ISR")
 pico_set_program_version(RGB_LED_ISR "0.1")
 
 # Generate PIO header
-pico_generate_pio_header(RGB_LED_ISR ${CMAKE_CURRENT_LIST_DIR}/blink.pio)
+pico_generate_pio_header(RGB_LED_ISR ${CMAKE_CURRENT_LIST_DIR}/pio_matrix.pio)
 
 # Modify the below lines to enable/disable output over UART/USB
 pico_enable_stdio_uart(RGB_LED_ISR 0)
-pico_enable_stdio_usb(RGB_LED_ISR 0)
+pico_enable_stdio_usb(RGB_LED_ISR 1)
 
 # Add the standard library to the build
 target_link_libraries(RGB_LED_ISR
@@ -54,6 +56,7 @@ target_link_libraries(RGB_LED_ISR
 # Add the standard include files to the build
 target_include_directories(RGB_LED_ISR PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}
+        ${CMAKE_CURRENT_LIST_DIR}/include
 )
 
 # Add any user requested libraries
