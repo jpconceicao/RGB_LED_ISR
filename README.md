@@ -52,18 +52,15 @@ Este projeto implementa um sistema que combina o controle de LEDs RGB, uma matri
 - Configura o clock do sistema para 128 MHz.
 - Carrega e inicializa o programa PIO para controle da matriz de LEDs.
 
-## Como Executar o Projeto
-1. Carregar o código na BitDogLab (Raspberry Pi Pico W).
-2. Conectar os LEDs, botões e matriz conforme as definições de pinos.
-3. Executar o código e testar as funcionalidades pressionando os botões.
-
 ## Melhorias Futuras
 - Implementação de efeitos adicionais na matriz de LEDs.
 - Suporte para múltiplos estilos de exibição de números.
 - Controle de brilho da matriz de LEDs via PWM.
 - Comunicação sem fio via Wi-Fi da Raspberry Pi Pico W para monitoramento remoto.
 
+## Link do vídeo
+- https://drive.google.com/file/d/1EbOH7UncsvnyfURL_44vs8xtjTyAawaZ/view?usp=sharing
+
 ## Autor
 **Jorge Palma**  
 *Data: 30/01/2025*
-

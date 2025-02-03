@@ -39,12 +39,11 @@ pio_t meu_pio = {
 // Escopo das funções
 void realizar_troca();
 static void gpio_irq_handler(uint gpio, uint32_t events);
-void init_pio_routine(pio_t * meu_pio);
 
 
 int main()
 {
-    init_pio_routine(&meu_pio);
+    init_pio_routine(&meu_pio, OUT_PIN);
 
     gpio_init(RED_LED_RGB);                 
     gpio_set_dir(RED_LED_RGB, GPIO_OUT);    
@@ -85,7 +84,7 @@ void gpio_irq_handler(uint gpio, uint32_t events)
     // Aplicando debouncing na interrupção
     uint32_t tempo_atual = to_us_since_boot(get_absolute_time());
 
-    if (tempo_atual - ultimo_tempo > 150000) // 150 ms de debouncing
+    if (tempo_atual - ultimo_tempo > 220000) // 220 ms de debouncing
     {
         ultimo_tempo = tempo_atual;
         trocar_numero = true;
@@ -107,7 +106,6 @@ void gpio_irq_handler(uint gpio, uint32_t events)
                 printf("Contador: %d\n", contador);
             }
         }
-
     }
 }
 
@@ -159,20 +157,4 @@ void realizar_troca()
             desenho_pio(numero_0, &meu_pio);
             break;
     }
-}
-
-void init_pio_routine(pio_t * meu_pio)
-{
-    //coloca a frequência de clock para 128 MHz, facilitando a divisão pelo clock
-    meu_pio->ok = set_sys_clock_khz(128000, false);
-
-    stdio_init_all();
-
-    printf("iniciando a transmissão PIO");
-    if (meu_pio->ok) printf("clock set to %ld\n", clock_get_hz(clk_sys));
-
-    //configurações da PIO
-    uint offset = pio_add_program(meu_pio->pio, &pio_matrix_program);
-    meu_pio->sm = pio_claim_unused_sm(meu_pio->pio, true);
-    pio_matrix_program_init(meu_pio->pio, meu_pio->sm, offset, OUT_PIN);
 }

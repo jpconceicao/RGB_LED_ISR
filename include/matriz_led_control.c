@@ -5,6 +5,22 @@
 #define NUM_PIXELS 25
 
 
+void init_pio_routine(pio_t * meu_pio, uint PIN)
+{
+    //coloca a frequência de clock para 128 MHz, facilitando a divisão pelo clock
+    meu_pio->ok = set_sys_clock_khz(128000, false);
+
+    stdio_init_all();
+
+    printf("iniciando a transmissão PIO");
+    if (meu_pio->ok) printf("clock set to %ld\n", clock_get_hz(clk_sys));
+
+    //configurações da PIO
+    uint offset = pio_add_program(meu_pio->pio, &pio_matrix_program);
+    meu_pio->sm = pio_claim_unused_sm(meu_pio->pio, true);
+    pio_matrix_program_init(meu_pio->pio, meu_pio->sm, offset, PIN);
+}
+
 
 //imprimir valor binário
 void imprimir_binario(int num) 
